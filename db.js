@@ -1,10 +1,28 @@
-const express = require("express");
-// const db = require("./db.json")
-const bodyParser = require("body-parser");
-const app = express();
-// const password = "brksbs5620";
+const mongoose = require("mongoose");
+
+const server = '127.0.0.1:27017'; 
+const database = 'MyDB'; 
+const password = "brksbs5620"
+class Database {
+  constructor() {
+    this._connect();
+  }
+  _connect() {
+    mongoose
+      .connect(`mongodb+srv://Burak:${password}@nodeex.5uf56wr.mongodb.net/?retryWrites=true&w=majority`)
+      .then(() => {
+        console.log('Database connection successful');
+      })
+      .catch((err) => {
+        console.error('Database connection failed');
+      });
+  }
+}
+
+module.exports = new Database();
+
 // const { MongoClient, ServerApiVersion } = require('mongodb');
-// const uri = `mongodb+srv://Burak:${password}@nodeex.5uf56wr.mongodb.net/?retryWrites=true&w=majority`;
+// const uri = "mongodb+srv://Burak:<password>@nodeex.5uf56wr.mongodb.net/?retryWrites=true&w=majority";
 // // Create a MongoClient with a MongoClientOptions object to set the Stable API version
 // const client = new MongoClient(uri, {
 //   serverApi: {
@@ -25,17 +43,4 @@ const app = express();
 //     await client.close();
 //   }
 // }
-// run().catch(console.dir);ü
-const db = require("./db");
-app.use(bodyParser.json());
-app.use(bodyParser.urlencoded({extended:true}));
-app.get("/",(req,res)=>{
-    res.send("hid")
-})
-app.post("/posts/:id/:name/:age",(req,res)=>{
-    const {id,name,age}= req.params
-    res.send(`gönderilen id ${id} ${name} ${age}`)
-})
-app.listen(process.env.PORT || 3001,()=>{
-    console.log("sunucu ayakta")
-} )
+// run().catch(console.dir);
